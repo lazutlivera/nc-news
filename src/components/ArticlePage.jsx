@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getArticleById } from './apiCalls';
 import { Link } from 'react-router-dom';
+import CommentSection from './CommentSection';
+
 export default function ArticlePage() {
     const { article_id } = useParams();
     const [article, setArticle] = useState(null);
@@ -26,6 +28,7 @@ export default function ArticlePage() {
         if (error) return <div>Error: {error}</div>;
 
     return (
+        <>
         <div className="article-page">
             <h1 className="article-title">{article.title}</h1>
             <div className="article-info">
@@ -37,5 +40,7 @@ export default function ArticlePage() {
             <p className="article-body">{article.body}</p>
             <div className="article-votes">Votes: {article.votes}</div>
         </div>
+        <CommentSection article_id={article_id} />
+        </>
     );
 }
