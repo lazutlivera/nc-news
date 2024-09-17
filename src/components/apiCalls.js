@@ -12,3 +12,10 @@ export const getArticles = () => {
             return data
         })
 }
+
+export const getArticleById = (article_id) => {
+    return ncNews.get(`/articles/${article_id}`)
+        .then(({data}) => {
+            return data
+        })
+}
