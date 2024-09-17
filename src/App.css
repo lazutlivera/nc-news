@@ -73,7 +73,30 @@
     font-size: 14px;
     color: #666;
   }
-
+  .comment-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .comment-section h2 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .comment {
+    background-color: white;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .comment p {
+    margin: 5px 0;
+  }
+  
   @media (max-width: 768px) {
     .articles-container {
       padding: 10px;
@@ -89,5 +112,41 @@
 
     .article-card {
       width: 100%;
+    }
+
+    .article-page {
+      padding: 10px;
+    }
+
+    .article-title {
+      font-size: 20px;
+    }
+
+    .article-info {
+      font-size: 12px;
+    }
+
+    .article-body {
+      font-size: 14px;
+    }
+
+    .comment-section {
+      padding: 10px;
+    }
+
+    .comment-section h2 {
+      font-size: 18px;
+    }
+
+    .comment {
+      padding: 8px;
+    }
+
+    .comment p:first-child {
+      font-size: 13px;
+    }
+
+    .comment p:last-child {
+      font-size: 11px;
     }
   }
