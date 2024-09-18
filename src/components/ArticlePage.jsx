@@ -32,7 +32,7 @@ export default function ArticlePage() {
                 setError("Failed to load article");
                 setIsLoading(false);
             });
-    }, [article_id]);
+    }, []);
 
 
     const handleVote = (num) => {
