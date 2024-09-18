@@ -26,3 +26,16 @@ export const getCommentsByArticleId = (article_id) => {
             return data
         })
 }
+
+export const patchVotes = (article_id, vote) => {
+    return ncNews.patch(`/articles/${article_id}`, {inc_votes: vote})
+        .then(({data}) => {
+            return data
+        })
+}
+export const getUsers = () => {
+    return ncNews.get(`/users`)
+        .then(({data}) => {
+            return data
+        })
+}

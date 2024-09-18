@@ -96,6 +96,47 @@
   .comment p {
     margin: 5px 0;
   }
+  .vote-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 1rem;
+  }
+
+  .header {
+    background-color: #f8f8f8;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .header h1 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 2rem;
+  }
+  
+  .user-select {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .user-select label {
+    font-weight: bold;
+  }
+  
+  .user-select select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  #logged-name {
+    margin: 0;
+    font-weight: bold;
+  }
+  .user-select p {
+    margin: 0;
+    font-style: italic;
+  }
   
   @media (max-width: 768px) {
     .articles-container {
@@ -142,11 +183,17 @@
       padding: 8px;
     }
 
-    .comment p:first-child {
-      font-size: 13px;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-
-    .comment p:last-child {
-      font-size: 11px;
+  
+    .header h1 {
+      margin: 0;
+    }
+  
+    .user-select {
+      flex-direction: row;
     }
   }

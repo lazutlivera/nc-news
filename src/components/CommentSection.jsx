@@ -22,7 +22,7 @@ export default function CommentSection({ article_id }) {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   return (
-    <div className="comment-section">
+    <section className="comment-section">
       <h2>Comments</h2>
       {comments.length > 0 ? (
         comments.map((comment) => (
@@ -34,6 +34,6 @@ export default function CommentSection({ article_id }) {
       ) : (
         <div>No comments yet</div>
       )}
-    </div>
+    </section>
   );
 }
