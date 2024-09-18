@@ -39,3 +39,12 @@ export const getUsers = () => {
             return data
         })
 }
+
+export const postComment = (article_id, comment) => {
+    console.log(comment);
+    return ncNews.post(`/articles/${article_id}/comments`, comment)
+        .then(({data}) => {
+            console.log(data);
+            return data
+        })
+}
