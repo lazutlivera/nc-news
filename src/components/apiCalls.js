@@ -48,3 +48,10 @@ export const postComment = (article_id, comment) => {
             return data
         })
 }
+export const deleteComment = (comment_id) => {
+    return ncNews.delete(`/comments/${comment_id}`)
+        .then(({data}) => {
+            console.log(data);
+            return data
+        })
+}
