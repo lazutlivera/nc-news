@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
-import { getCommentsByArticleId } from "./apiCalls";
+import { getCommentsByArticleId, postComment, deleteComment } from "./apiCalls";
 import { UserContext } from "../contexts/UserContext";
-import { postComment, deleteComment } from "./apiCalls";
 
 export default function CommentSection({ article_id }) {
   const [comments, setComments] = useState([]);
@@ -11,7 +10,6 @@ export default function CommentSection({ article_id }) {
   const { user } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [isPosting, setIsPosting] = useState(false);
-
 
   useEffect(() => {
     getCommentsByArticleId(article_id)
@@ -24,34 +22,58 @@ export default function CommentSection({ article_id }) {
         setError("Failed to load comments");
         setIsLoading(false);
       });
-  }, []);
+  }, [comments]);
 
   const addComment = (comment) => {
     setIsPosting(true);
+    const optimisticComment = {
+      comment_id: `${Date.now()}`,
+      author: user.username,
+      votes: 0,
+      body: comment.body,
+    };
+    setComments((prevComments) => {
+      const newComments = [optimisticComment, ...prevComments];
+      return newComments;
+    } 
+  );
+
     postComment(article_id, comment)
       .then((data) => {
-        console.log(data);
-        setComments([...comments, data]);
-        setMessage(
-          "Comment posted successfully, please refresh the page to see it"
+        setComments((prevComments) => 
+          prevComments.map((c) => 
+            c.comment_id === optimisticComment.comment_id ? { ...data, author: data.username } : c
+          )
         );
+        setMessage("Comment posted successfully");
         setIsPosting(false);
       })
       .catch((err) => {
         console.error("Error posting comment:", err);
         setError("Failed to post comment");
-        setIsPosting(false);
-      });
+        setComments((prevComments) =>
+          prevComments.filter((c) => c.comment_id !== optimisticComment.comment_id)
+          
+        
+        );
+      })
+
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addComment({ username: user.username, body: comment });
+    if (!comment.trim() || !user.username) return;
+    const newComment = { 
+      username: user.username,
+      body: comment 
+    };
+    addComment(newComment);
     setComment("");
   };
 
   const handleChange = (e) => {
     setComment(e.target.value);
+
   };
 
   const removeComment = (comment_id) => {
@@ -63,6 +85,7 @@ export default function CommentSection({ article_id }) {
       .catch((err) => {
         console.error("Error deleting comment:", err);
         setError("Failed to delete comment");
+        setComments(comments.filter((comment) => comment.comment_id !== comment_id));
       });
   };
   const handleDeleteClick = (comment) => {
@@ -79,7 +102,7 @@ export default function CommentSection({ article_id }) {
   return (
     <section className="comment-section">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="comment">Comment(choose user first)</label>
+        <label htmlFor="comment">Comment</label>
         <textarea
           id="comment"
           placeholder="Write your comment here"
@@ -90,7 +113,8 @@ export default function CommentSection({ article_id }) {
           Post Comment
         </button>
       </form>
-      {message ? <p>{message}</p> : null}
+      {message && <p>{message}</p>}
+      {error && <p className="error">{error}</p>}
       <h2>Comments</h2>
       {comments.length > 0 ? (
         comments.map((comment) => (
@@ -98,13 +122,15 @@ export default function CommentSection({ article_id }) {
             <p>{comment.body}</p>
             <p>Votes: {comment.votes}</p>
             <p>Posted by: {comment.author}</p>
-            <button onClick={() => handleDeleteClick(comment)}>Delete</button>
-        
+            {user.username === comment.author && 
+              <button onClick={() => handleDeleteClick(comment)}>Delete</button>
+            }
           </div>
         ))
       ) : (
         <div>No comments yet</div>
       )}
+      {isPosting && <div>Posting...</div>}
     </section>
   );
 }

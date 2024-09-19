@@ -1,25 +1,19 @@
-import { useEffect, useState } from "react"
-import { getArticles } from "./apiCalls"
+import { useEffect, useContext, useState } from "react"
+import { ArticleContext } from "../contexts/ArticleContext"
 import ArticleCard from "./ArticleCard"
 
 export default function Articles() {
-    const [articles, setArticles] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState(null)
+    const { articles, setArticles } = useContext(ArticleContext);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        setIsLoading(true)
-        getArticles()
-            .then((data) => {
-                setArticles(data.articles)
-                setIsLoading(false)
-            })
-            .catch((err) => {
-                console.error("Error details:", err)
-                setError('Failed to get articles: ' + err.message)
-            })
-
-    }, [])
+        if (articles.length === 0) {
+            setIsLoading(true);
+        } else {
+            setIsLoading(false);
+        }
+    }, [articles]);
 
     if (isLoading) return <p>Loading articles...</p>;
     if (error) return <p>Error loading articles: {error}</p>;

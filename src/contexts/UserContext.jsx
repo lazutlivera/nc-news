@@ -12,17 +12,18 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         getUsers().then(({users}) => {
             setUsers(users);
+            setUser(users[0]);
         });
     }, []);
 
-    const handleChange = (e) => {
-        const selectedUser = users.find(user => user.username === e.target.value);
-        setUser(selectedUser);
-    };
+    
+
+
+
 
 
   return (
-    <UserContext.Provider value={{ user, users, handleChange }}>
+    <UserContext.Provider value={{ setUser, user, users}}>
       {children}
     </UserContext.Provider>
   );
