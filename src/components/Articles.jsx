@@ -1,25 +1,42 @@
-import { useEffect, useContext, useState } from "react"
-import { ArticleContext } from "../contexts/ArticleContext"
-import ArticleCard from "./ArticleCard"
+import { useEffect, useContext, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { ArticleContext } from "../contexts/ArticleContext";
+import ArticleCard from "./ArticleCard";
 
 export default function Articles() {
-    const { articles, setArticles } = useContext(ArticleContext);
+    const { articles, setQuery } = useContext(ArticleContext);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        if (articles.length === 0) {
-            setIsLoading(true);
-        } else {
-            setIsLoading(false);
-        }
-    }, [articles]);
+        setIsLoading(true);
+        const sortBy = searchParams.get("sort_by") || "created_at";
+        const order = searchParams.get("order") || "desc";
+
+        setQuery({ sort_by: sortBy, order: order });
+        setIsLoading(false);
+    }, [searchParams, setQuery]);
+
+    const handleSortChange = (e) => {
+        const [sortBy, order] = e.target.value.split(',');
+        setSearchParams({ sort_by: sortBy, order: order });
+    };
 
     if (isLoading) return <p>Loading articles...</p>;
     if (error) return <p>Error loading articles: {error}</p>;
 
     return (
         <div className="articles-container">
+            <section>
+                <select onChange={handleSortChange}>
+                    <option value="created_at,desc">Newest</option>
+                    <option value="created_at,asc">Oldest</option>
+                    <option value="votes,desc">Most Votes</option>
+                    <option value="votes,asc">Least Votes</option>
+                </select>
+                <h2>Sort Articles</h2>
+            </section>
             {articles.length > 0 ? (
                 <>
                     <section className="featured-article">

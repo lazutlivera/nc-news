@@ -5,15 +5,16 @@ export const ArticleContext = createContext();
 
 export const ArticleProvider = ({ children }) => {
     const [articles, setArticles] = useState([]);
+    const [query, setQuery] = useState('');
 
     useEffect(() => {
-        getArticles().then(({articles}) => {
+        getArticles(query).then(({articles}) => {
             setArticles(articles);
         });
-    }, []);
+    }, [query]);
 
     return (
-        <ArticleContext.Provider value={{ articles, setArticles }}>
+        <ArticleContext.Provider value={{ articles, setArticles, query, setQuery }}>
             {children}
         </ArticleContext.Provider>
     );

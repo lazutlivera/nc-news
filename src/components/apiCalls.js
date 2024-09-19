@@ -6,8 +6,8 @@ const ncNews = axios.create({
 
 
 
-export const getArticles = () => {
-    return ncNews.get('/articles')
+export const getArticles = (query) => {
+    return ncNews.get('/articles', { params: query })
         .then(({data}) => {
             return data
         })
