@@ -1,11 +1,14 @@
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 export default function Header() {
   const { user, users, handleChange } = useContext(UserContext);
 
   return (
     <header className="header">
-      <h1>NC News</h1>
+      <Link to="/">
+        <h1>NC News</h1>
+      </Link>
       <section className="user-select">
         <label htmlFor="user-select" className="user-select">
           Select User:

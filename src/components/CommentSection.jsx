@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { getCommentsByArticleId } from "./apiCalls";
 import { UserContext } from "../contexts/UserContext";
-import { postComment } from "./apiCalls";
+import { postComment, deleteComment } from "./apiCalls";
 
 export default function CommentSection({ article_id }) {
   const [comments, setComments] = useState([]);
@@ -11,6 +11,7 @@ export default function CommentSection({ article_id }) {
   const { user } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [isPosting, setIsPosting] = useState(false);
+
 
   useEffect(() => {
     getCommentsByArticleId(article_id)
@@ -38,7 +39,7 @@ export default function CommentSection({ article_id }) {
       })
       .catch((err) => {
         console.error("Error posting comment:", err);
-        setMessage("Failed to post comment");
+        setError("Failed to post comment");
         setIsPosting(false);
       });
   };
@@ -51,6 +52,25 @@ export default function CommentSection({ article_id }) {
 
   const handleChange = (e) => {
     setComment(e.target.value);
+  };
+
+  const removeComment = (comment_id) => {
+    deleteComment(comment_id)
+      .then(() => {
+        setComments(comments.filter((comment) => comment.comment_id !== comment_id));
+        setMessage("Comment deleted successfully");
+      })
+      .catch((err) => {
+        console.error("Error deleting comment:", err);
+        setError("Failed to delete comment");
+      });
+  };
+  const handleDeleteClick = (comment) => {
+    if (user.username === comment.author) {
+      removeComment(comment.comment_id);
+    } else {
+      alert("You can only delete your own comments");
+    }
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -78,6 +98,8 @@ export default function CommentSection({ article_id }) {
             <p>{comment.body}</p>
             <p>Votes: {comment.votes}</p>
             <p>Posted by: {comment.author}</p>
+            <button onClick={() => handleDeleteClick(comment)}>Delete</button>
+        
           </div>
         ))
       ) : (
