@@ -29,7 +29,7 @@ export default function ArticlePage() {
             })
             .catch(err => {
                 console.error("Error getting article:", err);
-                setError("Failed to load article");
+                setError("Article does not exist, yet!");
                 setIsLoading(false);
             });
     }, []);
