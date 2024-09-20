@@ -19,7 +19,7 @@ const {user} = useContext(UserContext);
         ))}
       </nav>
       <section className="user-info">
-        <p>Logged in as: <span id="logged-name">{user.username}</span></p>
+        <p><em>Logged in as: <span id="logged-name">{user.username}</span></em></p>
       </section>
       </div>
     </header>
