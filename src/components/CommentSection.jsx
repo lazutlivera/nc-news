@@ -62,14 +62,20 @@ export default function CommentSection({ article_id }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!comment.trim() || !user.username) return;
+    if (!comment.trim() ){
+      setMessage("You must enter a comment");
+      return;
+    }
+    if (!user.username) return;
     const newComment = { 
       username: user.username,
       body: comment 
     };
     addComment(newComment);
     setComment("");
+    setMessage("");
   };
+
 
   const handleChange = (e) => {
     setComment(e.target.value);

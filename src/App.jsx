@@ -3,6 +3,7 @@ import Header from './components/Header'
 import Articles from './components/Articles'
 import ArticlePage from './components/ArticlePage'
 import Topics from './components/Topics'
+import NotFoundPage from './components/PageNotFound'
 import { Routes, Route } from 'react-router-dom'
 import { ArticleProvider } from './contexts/ArticleContext'
 import { useEffect, useState } from 'react'
@@ -28,6 +29,7 @@ useEffect(() => {
         <Route path="/" element={<Articles />} />
         <Route path="/article/:article_id" element={<ArticlePage />} />
         <Route path="/topics/:topic" element={<Topics topics={topics}/>} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </ArticleProvider>
   )
