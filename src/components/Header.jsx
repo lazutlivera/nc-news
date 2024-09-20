@@ -10,9 +10,7 @@ const {user} = useContext(UserContext);
       <Link to="/">
         <h1>NC News</h1>
       </Link>
-      <section className="user-select">
-        <p>Logged in as: <span id="logged-name">{user.username}</span></p>
-      </section>
+      <div className="nav-container">
       <nav>
         {topics.map((topic) => (
           <Link key={topic.slug} to={`/topics/${topic.slug}`}>
@@ -20,6 +18,10 @@ const {user} = useContext(UserContext);
           </Link>
         ))}
       </nav>
+      <section className="user-info">
+        <p>Logged in as: <span id="logged-name">{user.username}</span></p>
+      </section>
+      </div>
     </header>
   );
 }
