@@ -27,16 +27,17 @@ export default function Articles() {
     if (error) return <p>Error loading articles: {error}</p>;
 
     return (
-        <div className="articles-container">
-            <section>
+        <>
+            <section className="sort-articles">
+                <h2>Sort Articles</h2>
                 <select onChange={handleSortChange}>
                     <option value="created_at,desc">Newest</option>
                     <option value="created_at,asc">Oldest</option>
                     <option value="votes,desc">Most Votes</option>
                     <option value="votes,asc">Least Votes</option>
                 </select>
-                <h2>Sort Articles</h2>
             </section>
+        <div className="articles-container">
             {articles.length > 0 ? (
                 <>
                     <section className="featured-article">
@@ -56,5 +57,6 @@ export default function Articles() {
                 <div>No articles found</div>
             )}
         </div>
+        </>
     );
 }

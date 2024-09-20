@@ -119,7 +119,7 @@ export default function CommentSection({ article_id }) {
           Post Comment
         </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="message">{message}</p>}
       {error && <p className="error">{error}</p>}
       <h2>Comments</h2>
       {comments.length > 0 ? (

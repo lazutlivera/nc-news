@@ -24,8 +24,10 @@ export default function Topics({ topics }) {
 
   return (
     <div>
-      <h2>{currentTopic ? currentTopic.slug : 'Topic not found'}</h2>
-      <p>{currentTopic ? currentTopic.description : ''}</p>
+      <section className="topic-header">
+        <h2>{currentTopic ? currentTopic.slug : 'Topic not found'}</h2>
+        <p>{currentTopic ? currentTopic.description : ''}</p>
+      </section>
       <div className="articles-container">
         {filteredArticles.length > 0 ? (
           filteredArticles.map((article) => (
